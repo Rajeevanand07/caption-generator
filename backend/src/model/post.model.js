@@ -6,7 +6,7 @@ const postSchema = new momgoose.Schema({
   caption: String,
   user:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Users"
+    ref: "users"
   }
 });
 
