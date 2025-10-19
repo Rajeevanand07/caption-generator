@@ -2,6 +2,8 @@ import { useState, useRef, useCallback, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import { MdCheckCircle } from "react-icons/md"; // Example icon
 
 const FileUpload = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -11,6 +13,7 @@ const FileUpload = () => {
   const [caption, setCaption] = useState(null);
   const fileInputRef = useRef(null);
   const captionRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0]; // Get the first file only
@@ -23,7 +26,7 @@ const FileUpload = () => {
 
   const generateCaption = async () => {
     if (!selectedFile) return;
-
+    setLoading(true);
     const formData = new FormData();
     formData.append("image", selectedFile);
 
@@ -33,8 +36,14 @@ const FileUpload = () => {
       });
       setSelectedFile(null);
       setCaption(res.data.post.caption);
+      toast.success("Caption Generated...!", {
+        icon: <MdCheckCircle style={{ color: "#006A71", fontSize: "40px" }} />
+      });
+      setLoading(false);
     } catch (error) {
       console.log("Error handling file upload:", error);
+      toast.error("Failed to generate caption");
+      setLoading(false);
     }
   };
 
@@ -180,7 +189,7 @@ const FileUpload = () => {
             onClick={generateCaption}
             className="bg-[#006A71] hover:bg-[#48A6A7] text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-transform transform cursor-pointer inline-flex items-center gap-2"
           >
-            Generate Caption
+            {loading ? "Generating..." : "Generate Caption"}
           </button>
         </div>
       )}

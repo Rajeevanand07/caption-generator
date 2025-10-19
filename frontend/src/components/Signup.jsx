@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import { MdCheckCircle } from "react-icons/md"; // Example icon
 
 
-// You can include these icons directly in the component or define them separately
 const UserIcon = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.33 4 18V20H20V18C20 15.33 14.67 14 12 14Z" />
@@ -21,31 +27,51 @@ const EmailIcon = ({ className }) => (
 );
 
 const Signup = () => {
+  const { setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { register, handleSubmit, reset } = useForm();
+
+  const handleSignup = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        data,
+        { withCredentials: true } // ensure cookie received
+      );
+      console.log(res.data);
+      setIsAuthenticated(true);
+      reset();
+      toast.success("Signup Successful", {
+        icon: <MdCheckCircle style={{ color: "#006A71", fontSize: "40px" }} />
+      });
+      navigate("/caption");
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Signup failed");
+    }
+  };
+
   return (
-    // Main container - removed overflow-hidden to let circles show
     <div className="bg-[#F2EFE7] min-h-[90vh] flex items-center justify-center font-sans p-4">
       
-      {/* Wrapper for positioning the card and circles together */}
       <div className="relative w-full max-w-sm">
 
-        {/* Decorative Circles - positioned relative to the wrapper */}
         <div className="absolute w-30 h-30 bg-[#9ACBD0] rounded-full -top-15 -left-15 z-0"></div>
         <div className="absolute w-30 h-30 bg-[#48A6A7] rounded-full -bottom-15 -right-15 z-0"></div>
       
-        {/* Login Card - Sits on top of circles */}
         <div className="relative bg-white rounded-lg z-10 p-8 md:p-12">
           
-          {/* Form Content */}
           <div className="flex flex-col justify-center">
             <h1 className="text-4xl font-bold text-center text-[#006A71] mb-2">SIGNUP</h1>
             <p className="text-black/60 text-center mb-8">How to get started</p>
 
-            <form className="w-full">
+            <form className="w-full" onSubmit={handleSubmit(handleSignup)}>
               <div className="relative mb-6">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <EmailIcon className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
+                  {...register("email", { required: true })}
                   type="email"
                   placeholder="Email"
                   className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#48A6A7]"
@@ -57,6 +83,7 @@ const Signup = () => {
                   <UserIcon className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
+                  {...register("username", { required: true })}
                   type="text"
                   placeholder="Username"
                   className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#48A6A7]"
@@ -68,6 +95,7 @@ const Signup = () => {
                   <LockIcon className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
+                  {...register("password", { required: true })}
                   type="password"
                   placeholder="Password"
                   className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#48A6A7]"
@@ -80,7 +108,13 @@ const Signup = () => {
               >
                 Signup Now
               </button>
-              <p className='flex justify-center pt-5 gap-2'>already have an account? <Link className='text-blue-700 underline' to="/login">login</Link></p>
+
+              <p className="flex justify-center pt-5 gap-2">
+                already have an account?{" "}
+                <Link style={{ color: "#006A71" }} className="underline" to="/login">
+                  login
+                </Link>
+              </p>
             </form>
           </div>
         </div>
@@ -89,5 +123,4 @@ const Signup = () => {
   );
 };
 
-// To make this a complete, runnable file, we can export it as the default App
 export default Signup;

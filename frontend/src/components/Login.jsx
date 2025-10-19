@@ -3,6 +3,8 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import { MdCheckCircle } from "react-icons/md"; // Example icon
 
 const UserIcon = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -32,10 +34,14 @@ const Login = () => {
     );
     console.log(data);
     setIsAuthenticated(true);
+    toast.success("Login Successful", {
+      icon: <MdCheckCircle style={{ color: "#006A71", fontSize: "40px" }} />
+    });
     navigate("/caption");
     reset();
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
+      toast.error(error.response?.data?.message || "Login failed");
   }
 };
   return (

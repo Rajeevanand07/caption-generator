@@ -1,16 +1,24 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext.jsx'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import { MdCheckCircle } from "react-icons/md"; // Example icon
+
 
 const Nav = () => {
   const {isAuthenticated,setIsAuthenticated} = useContext(AuthContext)
+  const navigate = useNavigate();
   
   const handleLogout = () => {
     try {
       const res = axios.get("http://localhost:3000/api/auth/logout", { withCredentials: true })
       console.log(res);
       setIsAuthenticated(false);
+      toast.success("Logged Out", {
+        icon: <MdCheckCircle style={{ color: "#006A71", fontSize: "40px" }} />
+      });
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
