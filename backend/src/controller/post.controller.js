@@ -5,10 +5,12 @@ const { v4: uuidv4 } = require("uuid");
 
 async function createPost(req, res) {
   const file = req.file;
+  const tone = req.body.tone;
+  
   const base64Image = new Buffer.from(file.buffer).toString("base64");
   const [image, caption] = await Promise.all([
     uploadFile(base64Image, uuidv4()),
-    generateCaption(base64Image),
+    generateCaption(base64Image,tone),
   ]);
 
   const newPost = await postModel.create({
