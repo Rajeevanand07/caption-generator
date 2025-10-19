@@ -43,12 +43,32 @@ async function loginUser(req, res){
     },
     process.env.JWT_SECRET
   );
-  res.cookie("token", token);
+  res.cookie("token", token,{
+    httpOnly: true,
+  });
 
   res.status(200).json({ message: "Login successful" });
 }
 
+async function verifyUser(req, res) {
+  const token = req.cookies.token;
+  if (token) {
+    res.status(200).json({ valid: true });
+  } else {
+    res.json({ valid: false });
+  } 
+}
+
+async function logoutUser(req, res) {
+  res.clearCookie("token",{
+    httpOnly: true,
+  });
+  res.status(200).json({ message: "Logout successful" });
+}
+
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  verifyUser,
+  logoutUser
 };
