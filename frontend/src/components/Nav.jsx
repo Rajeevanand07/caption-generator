@@ -41,23 +41,6 @@ const Nav = () => {
             </Link>
           </div>
 
-          {/* Navigation Links */}
-          <div className="hidden sm:flex sm:items-center sm:space-x-8">
-            <Link
-              to="/caption"
-              className="px-3 py-2 rounded-md text-base font-medium hover:bg-[#F2EFE7] transition-colors duration-200"
-              style={{ color: '#48A6A7' }}
-            >
-              Generate Caption
-            </Link>
-            <Link
-              to="/profile"
-              className="px-3 py-2 rounded-md text-base font-medium hover:bg-[#F2EFE7] transition-colors duration-200"
-              style={{ color: '#48A6A7' }}
-            >
-              Profile
-            </Link>
-          </div>
 
           {/* Auth Buttons */}
          {!isAuthenticated ? (
