@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { MdCheckCircle } from "react-icons/md"; // Example icon
+import CaptionToneSelector from "./CaptionToneSelector";
 
 const FileUpload = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -12,8 +13,11 @@ const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [caption, setCaption] = useState(null);
   const fileInputRef = useRef(null);
-  const captionRef = useRef(null);
+  const captionRef = useRef("funny");
   const [loading, setLoading] = useState(false);
+  const [tone, setTone] = useState(null);
+
+  
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0]; // Get the first file only
@@ -29,6 +33,7 @@ const FileUpload = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("image", selectedFile);
+    formData.set("tone", tone);
 
     try {
       const res = await axios.post("http://localhost:3000/api/post", formData, {
@@ -177,21 +182,24 @@ const FileUpload = () => {
               <img
                 src={URL.createObjectURL(selectedFile)}
                 alt="Preview"
-                className="mt-2 max-w-xs mx-auto rounded-lg"
+                className="mt-2 sm:w-[70%] mx-auto rounded-lg"
               />
             </div>
           )}
         </div>
       </div>
       {selectedFile !== null && (
+        <>
+        <CaptionToneSelector onSelect={(tone) => setTone(tone)} />
         <div className="flex justify-center">
           <button
             onClick={generateCaption}
             className="bg-[#006A71] hover:bg-[#48A6A7] text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-transform transform cursor-pointer inline-flex items-center gap-2"
-          >
+            >
             {loading ? "Generating..." : "Generate Caption"}
           </button>
         </div>
+        </>
       )}
       {caption !== null && (
         <div className="max-w-[80%] bg-[#FFFFFF] rounded-xl shadow-md p-6">

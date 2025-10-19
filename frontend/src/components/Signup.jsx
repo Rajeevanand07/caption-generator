@@ -53,13 +53,10 @@ const Signup = () => {
 
   return (
     <div className="bg-[#F2EFE7] min-h-[90vh] flex items-center justify-center font-sans p-4">
-      
-      <div className="relative w-full max-w-sm">
-
-        <div className="absolute w-30 h-30 bg-[#9ACBD0] rounded-full -top-15 -left-15 z-0"></div>
-        <div className="absolute w-30 h-30 bg-[#48A6A7] rounded-full -bottom-15 -right-15 z-0"></div>
-      
-        <div className="relative bg-white rounded-lg z-10 p-8 md:p-12">
+      <div className="relative w-full max-w-sm flex justify-center">
+        <div className="absolute h-15 w-15 md:w-30 md:h-30 bg-[#9ACBD0] rounded-full -top-7 -left-0 md:-top-15 md:-left-15 z-0"></div>
+        <div className="absolute h-15 w-15 md:w-30 md:h-30 bg-[#48A6A7] rounded-full -bottom-7 -right-0 md:-bottom-15 md:-right-15 z-0"></div>
+        <div className="relative max-sm:w-[80%] bg-white rounded-lg p-6 z-10 md:p-12">
           
           <div className="flex flex-col justify-center">
             <h1 className="text-4xl font-bold text-center text-[#006A71] mb-2">SIGNUP</h1>
@@ -111,7 +108,7 @@ const Signup = () => {
 
               <p className="flex justify-center pt-5 gap-2">
                 already have an account?{" "}
-                <Link style={{ color: "#006A71" }} className="underline" to="/login">
+                <Link className="text-blue-700 underline" to="/login">
                   login
                 </Link>
               </p>

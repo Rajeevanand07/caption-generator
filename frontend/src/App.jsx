@@ -7,7 +7,7 @@ import CaptionAI from "./components/CaptionAI"
 const App = () => {
   return (
     <BrowserRouter>
-      <div>
+      <div className="h-full w-full">
         <Nav/>
         <Routes>
           <Route path="/" element={<CaptionAI/>} />

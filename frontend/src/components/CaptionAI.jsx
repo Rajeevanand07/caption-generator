@@ -88,7 +88,7 @@ const CaptionAI = () => {
   ];
 
   return (
-    <section className="bg-[#F2EFE9] w-full py-20 flex flex-col items-center gap-20">
+    <section className="bg-[#F2EFE9] w-full min-h-[90vh] py-20 flex flex-col items-center gap-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-4xl font-extrabold text-black sm:text-5xl">
