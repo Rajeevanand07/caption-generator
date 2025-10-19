@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import { useContext } from "react";
@@ -19,6 +19,7 @@ const LockIcon = ({ className }) => (
 
 const Login = () => {
   const {setIsAuthenticated} = useContext(AuthContext)
+  const navigate = useNavigate();
   const {register, handleSubmit,reset} = useForm();
   const handleLogin = async (cred) => {
   try {
@@ -31,6 +32,7 @@ const Login = () => {
     );
     console.log(data);
     setIsAuthenticated(true);
+    navigate("/caption");
     reset();
   } catch (error) {
     console.log(error);
