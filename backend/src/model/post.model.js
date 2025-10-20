@@ -8,7 +8,7 @@ const postSchema = new momgoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
   }
-});
+},{ timestamps: true });
 
 const postModel = momgoose.model("Post", postSchema);
 module.exports = postModel;

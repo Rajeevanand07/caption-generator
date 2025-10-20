@@ -1,14 +1,15 @@
 const express = require("express");
 const authMiddleware = require("../middleware/auth.middleware");
-const { createPost } = require("../controller/post.controller");
+const { createPost,getPosts } = require("../controller/post.controller");
 const multer = require("multer");
 const upload = multer({storage: multer.memoryStorage()});
-const route = express.Router();
+const router = express.Router();
 
-route.post("/", 
+router.post("/", 
   authMiddleware, // token availability and validity check (req.user = user)
   upload.single("image"), // multer middleware to handle multipart/form-data (req.file)
   createPost
 );
+router.get("/", authMiddleware, getPosts);
 
-module.exports = route;
+module.exports = router;

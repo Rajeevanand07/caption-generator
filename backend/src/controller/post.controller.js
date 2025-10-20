@@ -1,5 +1,6 @@
 const { generateCaption } = require("../service/ai.service");
 const { uploadFile } = require("../service/storage.service");
+const jwt = require("jsonwebtoken");
 const postModel = require("../model/post.model");
 const { v4: uuidv4 } = require("uuid");
 
@@ -27,6 +28,15 @@ async function createPost(req, res) {
     });
 }
 
+async function getPosts(req, res) {
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const userPosts = await postModel.find({ user: decoded.id }).sort({ createdAt: -1 });
+  res.status(200).json({ posts: userPosts });
+
+}
+
 module.exports = {
   createPost,
+  getPosts,
 };
