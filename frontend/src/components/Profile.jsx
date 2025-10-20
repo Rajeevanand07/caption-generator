@@ -28,10 +28,9 @@ const Profile = ({ isProfileOpen, setIsProfileOpen }) => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/auth/logout", {
+      await axios.get("http://localhost:3000/api/auth/logout", {
         withCredentials: true,
       });
-      console.log(res);
       setIsAuthenticated(false);
       setIsProfileOpen(false);
       toast.success("Logged Out", {

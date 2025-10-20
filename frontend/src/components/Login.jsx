@@ -25,14 +25,13 @@ const Login = () => {
   const {register, handleSubmit,reset} = useForm();
   const handleLogin = async (cred) => {
   try {
-    const { data } = await axios.post(
+    await axios.post(
       "http://localhost:3000/api/auth/login",
       cred,
       {
         withCredentials: true   // 🔥 this is required to receive cookies
       }
     );
-    console.log(data);
     setIsAuthenticated(true);
     toast.success("Login Successful", {
       icon: <MdCheckCircle style={{ color: "#006A71", fontSize: "40px" }} />
