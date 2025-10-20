@@ -35,6 +35,9 @@ async function getPosts(req, res) {
       .sort({ createdAt: -1 });
     res.status(200).json({ posts: userPosts });
   }
+  else{
+    res.json({posts:[]})
+  }
 }
 
 module.exports = {

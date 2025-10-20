@@ -67,7 +67,9 @@ async function verifyUser(req, res) {
     } else {
       res.json({ valid: false });
     }
-  } 
+  } else {
+      res.json({ valid: false });
+    }
 }
 
 async function logoutUser(req, res) {
