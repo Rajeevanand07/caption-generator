@@ -10,6 +10,6 @@ router.post("/",
   upload.single("image"), // multer middleware to handle multipart/form-data (req.file)
   createPost
 );
-router.get("/", authMiddleware, getPosts);
+router.get("/", getPosts);
 
 module.exports = router;

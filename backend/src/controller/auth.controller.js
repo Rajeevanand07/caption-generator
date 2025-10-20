@@ -58,13 +58,15 @@ async function loginUser(req, res){
 
 async function verifyUser(req, res) {
   const token = req.cookies?.token || false;
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const currentUser = await userModel.findById(decoded.id).select("-password");
-  
   if (token) {
-    res.status(200).json({ valid: true, user: currentUser });
-  } else {
-    res.json({ valid: false });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const currentUser = await userModel.findById(decoded.id).select("-password");
+    
+    if (token) {
+      res.status(200).json({ valid: true, user: currentUser });
+    } else {
+      res.json({ valid: false });
+    }
   } 
 }
 
