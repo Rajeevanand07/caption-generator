@@ -7,6 +7,8 @@ const AuthContext = createContext();
 export default function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [caption, setCaption] = useState(null);
+  
 
   const handleVerify = async (data) => {
     setIsAuthenticated(data.valid);
@@ -25,7 +27,7 @@ export default function AuthProvider({ children }) {
   }, [isAuthenticated]);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider value={{caption, setCaption, user, isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

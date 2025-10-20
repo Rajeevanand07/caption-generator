@@ -7,20 +7,16 @@ import { AuthContext } from "../context/AuthContext";
 import { MdCheckCircle } from "react-icons/md";
 
 const Profile = ({ isProfileOpen, setIsProfileOpen }) => {
-  const { user,isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { caption, user,isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [historyData, setHistoryData] = useState([]);
   const navigate = useNavigate();
-
-  console.log("profile");
   
   useEffect(() => {
     async function fetchPosts() {
       try {
         const { data } = await axios.get("http://localhost:3000/api/post", {
           withCredentials: true,
-        });
-        console.log(data.post);
-        
+        });       
         setHistoryData(data.posts || []);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
@@ -28,7 +24,7 @@ const Profile = ({ isProfileOpen, setIsProfileOpen }) => {
     }
     // fetch only if user exists
     if (user) fetchPosts();
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user,caption]);
 
   const handleLogout = async () => {
     try {

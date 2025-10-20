@@ -7,18 +7,15 @@ import { MdCheckCircle } from "react-icons/md"; // Example icon
 import CaptionToneSelector from "./CaptionToneSelector";
 
 const FileUpload = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const {caption, setCaption, isAuthenticated} = useContext(AuthContext);
   const navigate = useNavigate();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [caption, setCaption] = useState(null);
   const fileInputRef = useRef(null);
   const captionRef = useRef("funny");
   const [loading, setLoading] = useState(false);
-  const [tone, setTone] = useState(null);
+  const [tone, setTone] = useState(null); 
 
-  console.log("hey");
-  
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0]; // Get the first file only
