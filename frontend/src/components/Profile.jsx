@@ -87,14 +87,14 @@ const Profile = ({ isProfileOpen, setIsProfileOpen }) => {
         x
       </span>
       <div className="flex flex-col h-full p-6">
-        <div className="h-[30%] border-b-[1.5px] border-gray-300 flex justify-between items-center">
+        <div className="h-[30%] border-b-[1.5px] border-gray-300 flex justify-between md:items-center flex-col md:flex-row ">
           <div className=" gap-5 flex h-full items-center">
-            <div className="shadow-2xl h-30 w-30 rounded-full overflow-hidden">
+            <div className="shadow-2xl h-20 w-20 md:h-30 md:w-30 rounded-full overflow-hidden">
               <img className="h-full w-full object-cover" src={image} alt="" />
             </div>
             <span>
-              <h2 className="text-4xl capitalize">{user?.username}</h2>
-              <p className="text-gray-500 mt-[-8px]">{user?.email}</p>
+              <h2 className=" text-2xl md:text-4xl capitalize">{user?.username}</h2>
+              <p className=" text-sm md:text-lg text-gray-500 mt-[-8px]">{user?.email}</p>
             </span>
           </div>
           <button

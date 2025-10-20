@@ -75,7 +75,7 @@ const Nav = () => {
         </div>
       </div>
       <div
-        className={`fixed right-0 top-0 h-screen z-20 bg-[#F2EFE7] w-[40%] transition-transform duration-300 ease-in-out shadow-2xl
+        className={`fixed right-0 top-0 h-screen z-20 bg-[#F2EFE7] md:w-[70%] lg:w-[50%] xl:w-[40%]  transition-transform duration-300 ease-in-out shadow-2xl
           ${isProfileOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         <Profile
