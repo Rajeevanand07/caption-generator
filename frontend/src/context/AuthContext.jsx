@@ -6,20 +6,29 @@ const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const handleVerify = async (data) => {
+    setIsAuthenticated(data.valid);
+    setUser(data.user);
+  };
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/auth/verify", { withCredentials: true })
-      .then(res => setIsAuthenticated(res.data.valid))
-      .catch(() => setIsAuthenticated(false));
+    try {
+      axios
+        .get("http://localhost:3000/api/auth/verify", { withCredentials: true })
+        .then((res) => handleVerify(res.data))
+        .catch(() => setIsAuthenticated(false));
+    } catch (error) {
+      console.log(error);
+    }
   }, [isAuthenticated]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
 export { AuthContext };
-
-

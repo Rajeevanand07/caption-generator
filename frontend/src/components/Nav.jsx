@@ -1,28 +1,12 @@
-import { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext.jsx'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { MdCheckCircle } from "react-icons/md"; // Example icon
-
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
+import image from "../assets/image.png";
+import Profile from "./Profile.jsx";
 
 const Nav = () => {
-  const {isAuthenticated,setIsAuthenticated} = useContext(AuthContext)
-  const navigate = useNavigate();
-  
-  const handleLogout = () => {
-    try {
-      const res = axios.get("http://localhost:3000/api/auth/logout", { withCredentials: true })
-      console.log(res);
-      setIsAuthenticated(false);
-      toast.success("Logged Out", {
-        icon: <MdCheckCircle style={{ color: "#006A71", fontSize: "40px" }} />
-      });
-      navigate("/login");
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const { user, isAuthenticated } = useContext(AuthContext);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <nav className="bg-[#F2EFE7] min-h-[10vh] flex items-center ">
@@ -31,54 +15,76 @@ const Nav = () => {
           {/* Logo */}
           <div className="items-center flex">
             <Link to="/" className="flex items-center">
-                <div className="relative inline-block">
-                  <div className="absolute w-5 h-5 bg-[#9ACBD0] rounded-full -top-0 -left-2 "></div>
-                  <span className="relative z-1 text-2xl font-bold" style={{ color: '#006A71' }}>
-                    Caption.ai
-                  </span>
-                  <div className="absolute w-5 h-5 bg-[#48A6A7] rounded-full -bottom-0 -right-3"></div>
-                </div>
+              <div className="relative inline-block">
+                <div className="absolute w-5 h-5 bg-[#9ACBD0] rounded-full -top-0 -left-2 "></div>
+                <span
+                  className="relative z-1 text-2xl font-bold"
+                  style={{ color: "#006A71" }}
+                >
+                  Caption.ai
+                </span>
+                <div className="absolute w-5 h-5 bg-[#48A6A7] rounded-full -bottom-0 -right-3"></div>
+              </div>
             </Link>
           </div>
-
 
           {/* Auth Buttons */}
-         {!isAuthenticated ? (
-           <div className="flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="px-4 py-2 cursor-pointer rounded-md text-white font-medium transition-colors duration-200"
-              style={{ backgroundColor: '#006A71' }}
+          {!isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="px-4 py-2 cursor-pointer rounded-md text-white font-medium transition-colors duration-200"
+                style={{ backgroundColor: "#006A71" }}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 cursor-pointer py-2 rounded-md font-medium border-2 transition-colors duration-200"
+                style={{
+                  color: "#006A71",
+                  borderColor: "#006A71",
+                  backgroundColor: "transparent",
+                }}
+              >
+                Sign Up
+              </Link>
+            </div>
+          ) : (
+            <div
+              onClick={() => setIsProfileOpen(true)}
+              className="flex items-center justify-center space-x-2 cursor-pointer"
             >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="px-4 cursor-pointer py-2 rounded-md font-medium border-2 transition-colors duration-200"
-              style={{ 
-                color: '#006A71',
-                borderColor: '#006A71',
-                backgroundColor: 'transparent'
-              }}
-            >
-              Sign Up
-            </Link>
-          </div>
-         ):(
-           <div className="flex items-center space-x-4">
-            <button
-              onClick={handleLogout}
-              className="px-4 cursor-pointer py-2 rounded-md text-white font-medium transition-colors duration-200"
-              style={{ backgroundColor: '#006A71' }}
-            >
-              Logout
-            </button>
-          </div>
-         )}
+              <div className="flex flex-col items-end">
+                <span className="text-gray-400 text-sm">Welcome,</span>
+                {user && (
+                  <p className="text-xl capitalize mt-[-8px] text-gray-700">
+                    {user.username}
+                  </p>
+                )}
+              </div>
+              <div className="w-12 shadow-2xl h-12 rounded-full overflow-hidden">
+                <img
+                  className="h-full w-full object-cover"
+                  src={image}
+                  alt="user profile"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
+      <div
+        className={`fixed right-0 top-0 h-screen z-20 bg-[#F2EFE7] w-[40%] transition-transform duration-300 ease-in-out shadow-2xl
+          ${isProfileOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <Profile
+          isProfileOpen={isProfileOpen}
+          setIsProfileOpen={setIsProfileOpen}
+        />
+      </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;

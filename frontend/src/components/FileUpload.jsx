@@ -17,6 +17,7 @@ const FileUpload = () => {
   const [loading, setLoading] = useState(false);
   const [tone, setTone] = useState(null);
 
+  console.log("hey");
   
 
   const handleFileChange = async (e) => {
@@ -24,7 +25,7 @@ const FileUpload = () => {
     if (file && file.type.startsWith("image/")) {
       setSelectedFile(file);
     } else {
-      alert("Please select an image file");
+      toast.error("Please select an image file");
     }
   };
 
@@ -98,7 +99,7 @@ const FileUpload = () => {
           // Handle the formData here
           console.log("File dropped:", file.name);
         } else {
-          alert("Please drop an image file");
+          toast.error("Please drop an image file");
         }
       } else {
         navigate("/login");
@@ -112,7 +113,7 @@ const FileUpload = () => {
       navigator.clipboard
         .writeText(ref.current.innerText)
         .then(() => {
-          alert("Caption copied!"); // Optional feedback
+          toast.info("Caption copied!"); // Optional feedback
         })
         .catch((err) => {
           console.error("Failed to copy: ", err);
