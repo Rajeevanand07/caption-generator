@@ -9,8 +9,7 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [caption, setCaption] = useState(null);
   
-
-  const handleVerify = async (data) => {
+  const handleVerify = (data) => {
     setIsAuthenticated(data.valid);
     setUser(data.user);
   };
