@@ -68,7 +68,7 @@ async function verifyUser(req, res) {
       res.json({ valid: false });
     }
   } else {
-      res.json({ valid: false });
+      res.json({ valid: false,message:"no token" });
     }
 }
 
