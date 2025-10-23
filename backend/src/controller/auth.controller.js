@@ -1,22 +1,26 @@
 const userModel = require("../model/user.model");
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
-async function registerUser(req, res){
+async function registerUser(req, res) {
   const { email, username, password } = req.body;
 
   const isEmailExixts = await userModel.findOne({ email });
-  
+
   if (isEmailExixts) {
     return res.status(400).json({ message: "Email already exists" });
   }
-  
+
   const isUserExixts = await userModel.findOne({ username });
-  
+
   if (isUserExixts) {
     return res.status(400).json({ message: "User already exists" });
   }
-  const user = await userModel.create({ email, username, password: await bcrypt.hash(password, 10) });
+  const user = await userModel.create({
+    email,
+    username,
+    password: await bcrypt.hash(password, 10),
+  });
 
   const token = jwt.sign(
     {
@@ -24,11 +28,15 @@ async function registerUser(req, res){
     },
     process.env.JWT_SECRET
   );
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
   res.status(201).json({ message: "User registered", user });
 }
 
-async function loginUser(req, res){
+async function loginUser(req, res) {
   const { username, password } = req.body;
 
   const isUserExixts = await userModel.findOne({ username });
@@ -49,48 +57,40 @@ async function loginUser(req, res){
     },
     process.env.JWT_SECRET
   );
-  console.log("this is in login "+token);
-  
-  res.cookie("token", token,{
+
+  res.cookie("token", token, {
     httpOnly: true,
-    secure:true,
-    sameSite:"none"
+    secure: true,
+    sameSite: "none",
   });
 
-  console.log("in login cookies "+req.cookies.token);
-  
-  
   res.status(200).json({ message: "Login successful" });
 }
 
 async function verifyUser(req, res) {
-  console.log("this is in verifyUser req "+req);
-  console.log("this is in verifyUser res "+res);
-  console.log(req?.cookies);
   const token = await req.cookies?.token;
-  console.log("this is in verifyUser token "+token);
-  
+
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const currentUser = await userModel.findById(decoded.id).select("-password");
-    
+    const currentUser = await userModel
+      .findById(decoded.id)
+      .select("-password");
+
     if (token) {
-      res.status(200).json({ valid: true, user: currentUser  });
+      res.status(200).json({ valid: true, user: currentUser });
     } else {
       res.json({ valid: false });
     }
   } else {
-      res.json({ valid: false,message:"no token" });
-    }
+    res.json({ valid: false, message: "no token" });
+  }
 }
 
 async function logoutUser(req, res) {
-  console.log("we are in the logout user");
-  
-  res.clearCookie("token",{
+  res.clearCookie("token", {
     httpOnly: true,
-        secure:true,
-    sameSite:"none"
+    secure: true,
+    sameSite: "none",
   });
   res.status(200).json({ message: "Logout successful" });
 }
@@ -99,5 +99,5 @@ module.exports = {
   registerUser,
   loginUser,
   verifyUser,
-  logoutUser
+  logoutUser,
 };
