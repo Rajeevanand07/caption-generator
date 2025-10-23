@@ -51,12 +51,11 @@ async function loginUser(req, res){
   );
   console.log("this is in login "+token);
   
-res.cookie('token', token, {
-  httpOnly: true,
-  secure: true, // Secure cookies should be enabled for HTTPS
-  sameSite: 'None', // Cross-site cookies must use 'None' in this case
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
-});
+  res.cookie("token", token,{
+    httpOnly: true,
+  });
+
+  console.log("in login cookies "+req.cookies.token);
   
   
   res.status(200).json({ message: "Login successful" });
@@ -65,8 +64,8 @@ res.cookie('token', token, {
 async function verifyUser(req, res) {
   console.log("this is in verifyUser req "+req);
   console.log("this is in verifyUser res "+res);
-  console.log(req?.cookie);
-  const token = await req.cookie?.token;
+  console.log(req?.cookies);
+  const token = await req.cookies?.token;
   console.log("this is in verifyUser token "+token);
   
   if (token) {
