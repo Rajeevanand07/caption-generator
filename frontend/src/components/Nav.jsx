@@ -30,17 +30,17 @@ const Nav = () => {
 
           {/* Auth Buttons */}
           {!isAuthenticated ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-2">
               <Link
                 to="/login"
-                className="px-4 py-2 cursor-pointer rounded-md text-white font-medium transition-colors duration-200"
+                className="text-sm md:text-md px-2 py-1 md:px-4 md:py-2 cursor-pointer rounded-md text-white font-medium transition-colors duration-200"
                 style={{ backgroundColor: "#006A71" }}
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="px-4 cursor-pointer py-2 rounded-md font-medium border-2 transition-colors duration-200"
+                className="text-sm md:text-md md:px-4 cursor-pointer md:py-2 px-2 py-1 rounded-md font-medium border-2 transition-colors duration-200"
                 style={{
                   color: "#006A71",
                   borderColor: "#006A71",
