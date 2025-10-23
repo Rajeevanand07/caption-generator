@@ -7,14 +7,14 @@ import { AuthContext } from "../context/AuthContext";
 import { MdCheckCircle } from "react-icons/md";
 
 const Profile = ({ isProfileOpen, setIsProfileOpen }) => {
-  const { caption, user,isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { backendURL, caption, user,isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [historyData, setHistoryData] = useState([]);
   const navigate = useNavigate();
   
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/post", {
+        const { data } = await axios.get(`${backendURL}/api/post`, {
           withCredentials: true,
         });       
         setHistoryData(data.posts || []);
@@ -28,7 +28,7 @@ const Profile = ({ isProfileOpen, setIsProfileOpen }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:3000/api/auth/logout", {
+      await axios.get(`${backendURL}/api/auth/logout`, {
         withCredentials: true,
       });
       setIsAuthenticated(false);

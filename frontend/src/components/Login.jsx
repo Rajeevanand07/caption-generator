@@ -20,13 +20,13 @@ const LockIcon = ({ className }) => (
 
 
 const Login = () => {
-  const {setIsAuthenticated} = useContext(AuthContext)
+  const {setIsAuthenticated, backendURL} = useContext(AuthContext)
   const navigate = useNavigate();
   const {register, handleSubmit,reset} = useForm();
   const handleLogin = async (cred) => {
   try {
     await axios.post(
-      "http://localhost:3000/api/auth/login",
+      `${backendURL}/api/auth/login`,
       cred,
       {
         withCredentials: true   // 🔥 this is required to receive cookies

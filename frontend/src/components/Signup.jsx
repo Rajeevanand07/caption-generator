@@ -27,14 +27,14 @@ const EmailIcon = ({ className }) => (
 );
 
 const Signup = () => {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated,backendURL } = useContext(AuthContext);
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
 
   const handleSignup = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        `${backendURL}/api/auth/register`,
         data,
         { withCredentials: true } // ensure cookie received
       );

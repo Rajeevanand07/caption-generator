@@ -7,7 +7,7 @@ import { MdCheckCircle } from "react-icons/md"; // Example icon
 import CaptionToneSelector from "./CaptionToneSelector";
 
 const FileUpload = () => {
-  const {caption, setCaption, isAuthenticated} = useContext(AuthContext);
+  const {caption, backendURL, setCaption, isAuthenticated} = useContext(AuthContext);
   const navigate = useNavigate();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -34,7 +34,7 @@ const FileUpload = () => {
     formData.set("tone", tone);
 
     try {
-      const res = await axios.post("http://localhost:3000/api/post", formData, {
+      const res = await axios.post(`${backendURL}/api/post`, formData, {
         withCredentials: true,
       });
       setSelectedFile(null);
