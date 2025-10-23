@@ -13,10 +13,8 @@ export default function AuthProvider({ children }) {
   const [caption, setCaption] = useState(null);
   const handleVerify = (data) => {
     setIsAuthenticated(data.valid);
-    console.log(data);
     setUser(data.user);
   };
-  console.log(isAuthenticated);
 
   useEffect(() => {
     async function getData(){
