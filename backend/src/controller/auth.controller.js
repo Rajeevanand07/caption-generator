@@ -53,6 +53,8 @@ async function loginUser(req, res){
   
   const flag=await res.cookie("token", token,{
     httpOnly: true,
+    sameSite: 'none', // required for cross-site cookies
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   })?true :false;
 
   console.log("in login flag = "+flag);
@@ -64,8 +66,8 @@ async function loginUser(req, res){
 async function verifyUser(req, res) {
   console.log("this is in verifyUser req "+req);
   console.log("this is in verifyUser res "+res);
-  console.log(req?.cookies);
-  const token = await req.cookies?.token;
+  console.log(req?.cookie);
+  const token = await req.cookie?.token;
   console.log("this is in verifyUser token "+token);
   
   if (token) {
