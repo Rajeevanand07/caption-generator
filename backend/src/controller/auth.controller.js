@@ -51,13 +51,12 @@ async function loginUser(req, res){
   );
   console.log("this is in login "+token);
   
-  const flag=await res.cookie("token", token,{
-    httpOnly: true,
-    sameSite: 'none', // required for cross-site cookies
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  })?true :false;
-
-  console.log("in login flag = "+flag);
+res.cookie('token', token, {
+  httpOnly: true,
+  secure: true, // Secure cookies should be enabled for HTTPS
+  sameSite: 'None', // Cross-site cookies must use 'None' in this case
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+});
   
   
   res.status(200).json({ message: "Login successful" });
