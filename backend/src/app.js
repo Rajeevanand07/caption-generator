@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cookieparser());
 app.use(
   cors({
-    origin: "http://localhost:5173", 
+    origin:[ "http://localhost:5173","https://caption-generator-red-eight.vercel.app"], 
     credentials: true,
   })
 );
