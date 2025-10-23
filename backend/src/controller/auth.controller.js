@@ -51,9 +51,12 @@ async function loginUser(req, res){
   );
   console.log("this is in login "+token);
   
-  res.cookie("token", token,{
+  const flag=await res.cookie("token", token,{
     httpOnly: true,
-  });
+  })?true :false;
+
+  console.log("in login flag = "+flag);
+  
   
   res.status(200).json({ message: "Login successful" });
 }
@@ -80,6 +83,8 @@ async function verifyUser(req, res) {
 }
 
 async function logoutUser(req, res) {
+  console.log("we are in the logout user");
+  
   res.clearCookie("token",{
     httpOnly: true,
   });
