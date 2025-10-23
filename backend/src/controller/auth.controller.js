@@ -49,16 +49,21 @@ async function loginUser(req, res){
     },
     process.env.JWT_SECRET
   );
+  console.log("this is in login "+token);
+  
   res.cookie("token", token,{
     httpOnly: true,
   });
-
+  
   res.status(200).json({ message: "Login successful" });
 }
 
 async function verifyUser(req, res) {
-  const token = await req.cookies?.token || false;
-  console.log(token);
+  console.log("this is in verifyUser req "+req);
+  console.log("this is in verifyUser res "+res);
+  console.log(req?.cookies);
+  const token = await req.cookies?.token;
+  console.log("this is in verifyUser token "+token);
   
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
