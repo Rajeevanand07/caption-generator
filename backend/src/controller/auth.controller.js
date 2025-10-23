@@ -53,6 +53,8 @@ async function loginUser(req, res){
   
   res.cookie("token", token,{
     httpOnly: true,
+    secure:true,
+    sameSite:"none"
   });
 
   console.log("in login cookies "+req.cookies.token);
