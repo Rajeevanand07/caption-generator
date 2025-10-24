@@ -70,7 +70,7 @@ async function loginUser(req, res) {
 
 
   const flag = res.cookie("token", token, {
-    httpOnly: true,
+    httpsOnly: true,
     secure: true,
     sameSite: "none",
   })?true:false;
@@ -83,7 +83,7 @@ async function loginUser(req, res) {
 
 async function verifyUser(req, res) {
   const token = await req.cookies?.token;
-  console.log(token);
+  console.log();
   
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
