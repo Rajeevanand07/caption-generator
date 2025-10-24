@@ -73,7 +73,7 @@ async function loginUser(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-  });
+  })?true:false;
 
   console.log("token set to cookies ",flag);
 
@@ -83,7 +83,8 @@ async function loginUser(req, res) {
 
 async function verifyUser(req, res) {
   const token = await req.cookies?.token;
-
+  console.log(token);
+  
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const currentUser = await userModel
