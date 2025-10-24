@@ -28,11 +28,19 @@ async function registerUser(req, res) {
     },
     process.env.JWT_SECRET
   );
-  res.cookie("token", token, {
+
+  console.log("token before setting to cookies ",token);
+  
+  const flag = res.cookie("token", token, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
   });
+
+  console.log("token set to cookies ",flag);
+  
+
+
   res.status(201).json({ message: "User registered", user });
 }
 
@@ -58,11 +66,17 @@ async function loginUser(req, res) {
     process.env.JWT_SECRET
   );
 
-  res.cookie("token", token, {
+  console.log("token before setting to cookies ",token);
+
+
+  const flag = res.cookie("token", token, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
   });
+
+  console.log("token set to cookies ",flag);
+
 
   res.status(200).json({ message: "Login successful" });
 }
