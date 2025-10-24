@@ -83,7 +83,7 @@ async function loginUser(req, res) {
 
 async function verifyUser(req, res) {
   const token = await req.cookies?.token;
-  console.log();
+  console.log(token);
   
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
