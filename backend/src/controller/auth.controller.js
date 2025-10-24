@@ -70,7 +70,7 @@ async function loginUser(req, res) {
 
 
   const flag = res.cookie("token", token, {
-    httpsOnly: true,
+    httpOnly: true,
     secure: true,
     sameSite: "none",
   })?true:false;
